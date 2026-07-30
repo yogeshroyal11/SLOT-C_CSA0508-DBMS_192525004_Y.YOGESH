@@ -1,0 +1,134 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.45 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> CREATE DATABASE College;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE College;
+Database changed
+mysql> CREATE TABLE STUDENT(
+    ->     RegisterNo BIGINT PRIMARY KEY,
+    ->     StudentName VARCHAR(50),
+    ->     Department VARCHAR(20),
+    ->     Age INT
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> CREATE TABLE FACULTY(
+    ->     FacultyID INT PRIMARY KEY,
+    ->     FacultyName VARCHAR(50),
+    ->     Department VARCHAR(20),
+    ->     Age INT
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO STUDENT VALUES
+    -> (191711342,'Rahul','CSE',20),
+    -> (191711343,'Priya','ECE',19),
+    -> (191711344,'Arjun','AIML',21);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO FACULTY VALUES
+    -> (101,'Mohan','CSE',55),
+    -> (102,'Anitha','ECE',48),
+    -> (103,'Ramesh','AIML',67),
+    -> (104,'Kavitha','CSE',42),
+    -> (105,'Lakshmi','IT',66);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM STUDENT;
++------------+-------------+------------+------+
+| RegisterNo | StudentName | Department | Age  |
++------------+-------------+------------+------+
+|  191711342 | Rahul       | CSE        |   20 |
+|  191711343 | Priya       | ECE        |   19 |
+|  191711344 | Arjun       | AIML       |   21 |
++------------+-------------+------------+------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM FACULTY;
++-----------+-------------+------------+------+
+| FacultyID | FacultyName | Department | Age  |
++-----------+-------------+------------+------+
+|       101 | Mohan       | CSE        |   55 |
+|       102 | Anitha      | ECE        |   48 |
+|       103 | Ramesh      | AIML       |   67 |
+|       104 | Kavitha     | CSE        |   42 |
+|       105 | Lakshmi     | IT         |   66 |
++-----------+-------------+------------+------+
+5 rows in set (0.00 sec)
+
+mysql> UPDATE STUDENT
+    -> SET StudentName='Rohit'
+    -> WHERE RegisterNo=191711342;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM STUDENT;
++------------+-------------+------------+------+
+| RegisterNo | StudentName | Department | Age  |
++------------+-------------+------------+------+
+|  191711342 | Rohit       | CSE        |   20 |
+|  191711343 | Priya       | ECE        |   19 |
+|  191711344 | Arjun       | AIML       |   21 |
++------------+-------------+------------+------+
+3 rows in set (0.00 sec)
+
+mysql> DELETE FROM FACULTY
+    -> WHERE FacultyName='Anitha';
+Query OK, 1 row affected (0.04 sec)
+
+mysql> SELECT * FROM FACULTY;
++-----------+-------------+------------+------+
+| FacultyID | FacultyName | Department | Age  |
++-----------+-------------+------------+------+
+|       101 | Mohan       | CSE        |   55 |
+|       103 | Ramesh      | AIML       |   67 |
+|       104 | Kavitha     | CSE        |   42 |
+|       105 | Lakshmi     | IT         |   66 |
++-----------+-------------+------------+------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE FACULTY
+    -> SET Age=59
+    -> WHERE FacultyName='Mohan';
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM FACULTY;
++-----------+-------------+------------+------+
+| FacultyID | FacultyName | Department | Age  |
++-----------+-------------+------------+------+
+|       101 | Mohan       | CSE        |   59 |
+|       103 | Ramesh      | AIML       |   67 |
+|       104 | Kavitha     | CSE        |   42 |
+|       105 | Lakshmi     | IT         |   66 |
++-----------+-------------+------------+------+
+4 rows in set (0.00 sec)
+
+mysql> DELETE FROM FACULTY
+    -> WHERE Age>65;
+Query OK, 2 rows affected (0.04 sec)
+
+mysql> SELECT * FROM FACULTY;
++-----------+-------------+------------+------+
+| FacultyID | FacultyName | Department | Age  |
++-----------+-------------+------------+------+
+|       101 | Mohan       | CSE        |   59 |
+|       104 | Kavitha     | CSE        |   42 |
++-----------+-------------+------------+------+
+2 rows in set (0.00 sec)
+
+mysql>
