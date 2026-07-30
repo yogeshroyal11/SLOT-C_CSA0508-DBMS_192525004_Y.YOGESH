@@ -1,0 +1,150 @@
+Enter password: ****************
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 14
+Server version: 8.0.44 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| constraint_demo    |
+| csa0508            |
+| ecommerce_sql_demo |
+| emp                |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sathwick           |
++--------------------+
+9 rows in set (0.01 sec)
+
+mysql> USE COLLEGE;
+Database changed
+mysql> SHOW TABLES;
++-------------------+
+| Tables_in_college |
++-------------------+
+| course            |
+| department        |
+| faculty           |
+| student           |
++-------------------+
+4 rows in set (0.03 sec)
+
+mysql> DESC STUDENT;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| REGNO    | int         | YES  |     | NULL    |       |
+| NAME     | varchar(20) | YES  |     | NULL    |       |
+| GENDER   | char(1)     | YES  |     | NULL    |       |
+| DOB      | date        | YES  |     | NULL    |       |
+| MOBILENO | int         | YES  |     | NULL    |       |
+| CITY     | varchar(50) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> ALTER TABLE STUDENT
+    -> ADD PRIMARY KEY(REGNO);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC FACULTY;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| FACNO    | varchar(6)  | YES  |     | NULL    |       |
+| FACNAME  | varchar(50) | YES  |     | NULL    |       |
+| GENDER   | char(1)     | YES  |     | NULL    |       |
+| DOB      | date        | YES  |     | NULL    |       |
+| MOBILENO | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> ALTER TABLE FACULTY
+    -> ADD PRIMARY KEY(FACNO);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC DEPARTMENT;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| DEPTNO   | varchar(4)  | YES  |     | NULL    |       |
+| DEPTNAME | varchar(50) | YES  |     | NULL    |       |
+| DEPTHEAD | varchar(40) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE DEPARTMENT
+    -> ADD PRIMARY KEY(DEPNO);
+ERROR 1072 (42000): Key column 'DEPNO' doesn't exist in table
+mysql> ALTER TABLE DEPARTMENT
+    -> ADD PRIMARY KEY(DEPTNO);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE STUDENT
+    -> ADD UNIQUE(NAME);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC STUDENT;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| REGNO    | int         | NO   | PRI | NULL    |       |
+| NAME     | varchar(20) | YES  | UNI | NULL    |       |
+| GENDER   | char(1)     | YES  |     | NULL    |       |
+| DOB      | date        | YES  |     | NULL    |       |
+| MOBILENO | int         | YES  |     | NULL    |       |
+| CITY     | varchar(50) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> DESC FACULTY;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| FACNO    | varchar(6)  | NO   | PRI | NULL    |       |
+| FACNAME  | varchar(50) | YES  |     | NULL    |       |
+| GENDER   | char(1)     | YES  |     | NULL    |       |
+| DOB      | date        | YES  |     | NULL    |       |
+| MOBILENO | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> DESC DEPARTMENT;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| DEPTNO   | varchar(4)  | NO   | PRI | NULL    |       |
+| DEPTNAME | varchar(50) | YES  |     | NULL    |       |
+| DEPTHEAD | varchar(40) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> DESC COURSE;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| COURSENO   | varchar(3)  | YES  |     | NULL    |       |
+| COURSEDESC | varchar(13) | YES  |     | NULL    |       |
+| COURSETYPE | char(1)     | YES  |     | NULL    |       |
+| SEMNO      | char(1)     | YES  |     | NULL    |       |
+| HALLNO     | varchar(4)  | YES  |     | NULL    |       |
+| FACNO      | varchar(4)  | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql>
