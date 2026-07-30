@@ -1,0 +1,156 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.45 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use library;
+Database changed
+mysql> CREATE TABLE Authors (
+    ->     AuthorID INT PRIMARY KEY,
+    ->     AuthorName VARCHAR(50),
+    ->     Country VARCHAR(30)
+    -> );
+ERROR 1050 (42S01): Table 'authors' already exists
+mysql> CREATE TABLE Books (
+    ->     BookID INT PRIMARY KEY,
+    ->     BookTitle VARCHAR(100),
+    ->     AuthorID INT,
+    ->     Price DECIMAL(6,2),
+    ->     FOREIGN KEY (AuthorID) REFERENCES Authors(AuthorID)
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> CREATE TABLE Members (
+    ->     MemberID INT PRIMARY KEY,
+    ->     MemberName VARCHAR(50),
+    ->     Department VARCHAR(30),
+    ->     Phone VARCHAR(15)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE Librarians (
+    ->     LibrarianID INT PRIMARY KEY,
+    ->     LibrarianName VARCHAR(50),
+    ->     Shift VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> CREATE TABLE IssueDetails (
+    ->     IssueID INT PRIMARY KEY,
+    ->     BookID INT,
+    ->     MemberID INT,
+    ->     IssueDate DATE,
+    ->     FOREIGN KEY (BookID) REFERENCES Books(BookID),
+    ->     FOREIGN KEY (MemberID) REFERENCES Members(MemberID)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> SHOW TABLES;
++-------------------+
+| Tables_in_library |
++-------------------+
+| authors           |
+| books             |
+| issuedetails      |
+| librarians        |
+| members           |
++-------------------+
+5 rows in set (0.06 sec)
+
+mysql> INSERT INTO Authors
+    -> VALUES
+    -> (101,'R.K. Narayan','India'),
+    -> (102,'Chetan Bhagat','India'),
+    -> (103,'J.K. Rowling','UK');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Books
+    -> VALUES
+    -> (201,'Malgudi Days',101,350.00),
+    -> (202,'Five Point Someone',102,280.00),
+    -> (203,'Harry Potter',103,500.00);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Members
+    -> VALUES
+    -> (301,'Rahul','CSE','9876543210'),
+    -> (302,'Priya','ECE','9876501234'),
+    -> (303,'Arjun','AIML','9876512345');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Librarians
+    -> VALUES
+    -> (401,'Anita','Morning'),
+    -> (402,'Suresh','Evening');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO IssueDetails
+    -> VALUES
+    -> (501,201,301,'2026-07-01'),
+    -> (502,202,302,'2026-07-05'),
+    -> (503,203,303,'2026-07-10');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Authors;
++----------+---------------+---------+
+| authorID | authorName    | country |
++----------+---------------+---------+
+|      101 | R.K. Narayan  | India   |
+|      102 | Chetan Bhagat | India   |
+|      103 | J.K. Rowling  | UK      |
++----------+---------------+---------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Books;
++--------+--------------------+----------+--------+
+| BookID | BookTitle          | AuthorID | Price  |
++--------+--------------------+----------+--------+
+|    201 | Malgudi Days       |      101 | 350.00 |
+|    202 | Five Point Someone |      102 | 280.00 |
+|    203 | Harry Potter       |      103 | 500.00 |
++--------+--------------------+----------+--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Members;
++----------+------------+------------+------------+
+| MemberID | MemberName | Department | Phone      |
++----------+------------+------------+------------+
+|      301 | Rahul      | CSE        | 9876543210 |
+|      302 | Priya      | ECE        | 9876501234 |
+|      303 | Arjun      | AIML       | 9876512345 |
++----------+------------+------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Librarians;
++-------------+---------------+---------+
+| LibrarianID | LibrarianName | Shift   |
++-------------+---------------+---------+
+|         401 | Anita         | Morning |
+|         402 | Suresh        | Evening |
++-------------+---------------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM IssueDetails;
++---------+--------+----------+------------+
+| IssueID | BookID | MemberID | IssueDate  |
++---------+--------+----------+------------+
+|     501 |    201 |      301 | 2026-07-01 |
+|     502 |    202 |      302 | 2026-07-05 |
+|     503 |    203 |      303 | 2026-07-10 |
++---------+--------+----------+------------+
+3 rows in set (0.00 sec)
+
+mysql>
