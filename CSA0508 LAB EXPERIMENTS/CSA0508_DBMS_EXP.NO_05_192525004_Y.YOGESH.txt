@@ -1,0 +1,203 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 13
+Server version: 8.0.45 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> CREATE DATABASE CollegeDB;
+Query OK, 1 row affected (0.04 sec)
+
+mysql> USE CollegeDB;
+Database changed
+mysql> CREATE TABLE STUDENT(
+    ->     RegisterNo BIGINT PRIMARY KEY,
+    ->     StudentName VARCHAR(50),
+    ->     DOB DATE,
+    ->     Gender VARCHAR(10),
+    ->     City VARCHAR(30)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO STUDENT VALUES
+    -> (191711342,'Harish','2004-01-15','Male','Salem'),
+    -> (191711343,'Asha','2004-05-20','Female','Chennai'),
+    -> (191711344,'Ramesh','2003-08-10','Male','Salem'),
+    -> (191711345,'Kavya','2004-11-12','Female','Coimbatore'),
+    -> (191711346,'Shyam','2004-03-30','Male','Saligrama');
+Query OK, 5 rows affected (0.02 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE COURSE(
+    ->     CourseID VARCHAR(10) PRIMARY KEY,
+    ->     CourseName VARCHAR(50),
+    ->     HallID VARCHAR(10)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO COURSE VALUES
+    -> ('C001','Database Systems','H002'),
+    -> ('C002','Python Programming','H001'),
+    -> ('C003','Computer Networks','H003');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE REGISTRATION(
+    ->     RegisterNo BIGINT,
+    ->     CourseID VARCHAR(10),
+    ->     PRIMARY KEY(RegisterNo, CourseID),
+    ->     FOREIGN KEY(RegisterNo) REFERENCES STUDENT(RegisterNo),
+    ->     FOREIGN KEY(CourseID) REFERENCES COURSE(CourseID)
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> INSERT INTO REGISTRATION VALUES
+    -> (191711342,'C001'),
+    -> (191711343,'C002'),
+    -> (191711344,'C001'),
+    -> (191711345,'C003'),
+    -> (191711346,'C001');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE FACULTY(
+    ->     FacultyID INT PRIMARY KEY,
+    ->     FacultyName VARCHAR(50),
+    ->     DOJ DATE
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO FACULTY VALUES
+    -> (101,'Mohan','2012-05-10'),
+    -> (102,'Anitha','2016-08-21'),
+    -> (103,'Ramesh','2013-10-15'),
+    -> (104,'Kavitha','2018-01-10');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT RegisterNo, StudentName, DOB
+    -> FROM STUDENT;
++------------+-------------+------------+
+| RegisterNo | StudentName | DOB        |
++------------+-------------+------------+
+|  191711342 | Harish      | 2004-01-15 |
+|  191711343 | Asha        | 2004-05-20 |
+|  191711344 | Ramesh      | 2003-08-10 |
+|  191711345 | Kavya       | 2004-11-12 |
+|  191711346 | Shyam       | 2004-03-30 |
++------------+-------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM STUDENT
+    -> WHERE Gender='Female';
++------------+-------------+------------+--------+------------+
+| RegisterNo | StudentName | DOB        | Gender | City       |
++------------+-------------+------------+--------+------------+
+|  191711343 | Asha        | 2004-05-20 | Female | Chennai    |
+|  191711345 | Kavya       | 2004-11-12 | Female | Coimbatore |
++------------+-------------+------------+--------+------------+
+2 rows in set (0.03 sec)
+
+mysql> SELECT S.*
+    -> FROM STUDENT S
+    -> JOIN REGISTRATION R
+    -> ON S.RegisterNo = R.RegisterNo
+    -> WHERE R.CourseID='C001';
++------------+-------------+------------+--------+-----------+
+| RegisterNo | StudentName | DOB        | Gender | City      |
++------------+-------------+------------+--------+-----------+
+|  191711342 | Harish      | 2004-01-15 | Male   | Salem     |
+|  191711344 | Ramesh      | 2003-08-10 | Male   | Salem     |
+|  191711346 | Shyam       | 2004-03-30 | Male   | Saligrama |
++------------+-------------+------------+--------+-----------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT *
+    -> FROM FACULTY
+    -> WHERE DOJ < '2014-11-01';
++-----------+-------------+------------+
+| FacultyID | FacultyName | DOJ        |
++-----------+-------------+------------+
+|       101 | Mohan       | 2012-05-10 |
+|       103 | Ramesh      | 2013-10-15 |
++-----------+-------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM COURSE
+    -> WHERE HallID <> 'H001';
++----------+-------------------+--------+
+| CourseID | CourseName        | HallID |
++----------+-------------------+--------+
+| C001     | Database Systems  | H002   |
+| C003     | Computer Networks | H003   |
++----------+-------------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM STUDENT
+    -> WHERE StudentName LIKE '%sh';
++------------+-------------+------------+--------+-------+
+| RegisterNo | StudentName | DOB        | Gender | City  |
++------------+-------------+------------+--------+-------+
+|  191711342 | Harish      | 2004-01-15 | Male   | Salem |
+|  191711344 | Ramesh      | 2003-08-10 | Male   | Salem |
++------------+-------------+------------+--------+-------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT *
+    -> FROM STUDENT
+    -> WHERE StudentName LIKE '%sh%';
++------------+-------------+------------+--------+-----------+
+| RegisterNo | StudentName | DOB        | Gender | City      |
++------------+-------------+------------+--------+-----------+
+|  191711342 | Harish      | 2004-01-15 | Male   | Salem     |
+|  191711343 | Asha        | 2004-05-20 | Female | Chennai   |
+|  191711344 | Ramesh      | 2003-08-10 | Male   | Salem     |
+|  191711346 | Shyam       | 2004-03-30 | Male   | Saligrama |
++------------+-------------+------------+--------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM STUDENT
+    -> WHERE City LIKE '%Sal%';
++------------+-------------+------------+--------+-----------+
+| RegisterNo | StudentName | DOB        | Gender | City      |
++------------+-------------+------------+--------+-----------+
+|  191711342 | Harish      | 2004-01-15 | Male   | Salem     |
+|  191711344 | Ramesh      | 2003-08-10 | Male   | Salem     |
+|  191711346 | Shyam       | 2004-03-30 | Male   | Saligrama |
++------------+-------------+------------+--------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM STUDENT
+    -> WHERE StudentName NOT LIKE '______';
++------------+-------------+------------+--------+------------+
+| RegisterNo | StudentName | DOB        | Gender | City       |
++------------+-------------+------------+--------+------------+
+|  191711343 | Asha        | 2004-05-20 | Female | Chennai    |
+|  191711345 | Kavya       | 2004-11-12 | Female | Coimbatore |
+|  191711346 | Shyam       | 2004-03-30 | Male   | Saligrama  |
++------------+-------------+------------+--------+------------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT *
+    -> FROM STUDENT
+    -> WHERE StudentName LIKE '%am%';
++------------+-------------+------------+--------+-----------+
+| RegisterNo | StudentName | DOB        | Gender | City      |
++------------+-------------+------------+--------+-----------+
+|  191711344 | Ramesh      | 2003-08-10 | Male   | Salem     |
+|  191711346 | Shyam       | 2004-03-30 | Male   | Saligrama |
++------------+-------------+------------+--------+-----------+
+2 rows in set (0.00 sec)
+
+mysql>
