@@ -1,0 +1,231 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> CREATE DATABASE shopping;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE shopping;
+Database changed
+mysql> CREATE TABLE Product(
+    -> ProductID VARCHAR(10) PRIMARY KEY,
+    -> ProductName VARCHAR(30),
+    -> Category VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE Customer(
+    -> CustomerID VARCHAR(10) PRIMARY KEY,
+    -> CustomerName VARCHAR(30),
+    -> City VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE Orders(
+    -> OrderID VARCHAR(10) PRIMARY KEY,
+    -> CustomerID VARCHAR(10),
+    -> ProductID VARCHAR(10),
+    -> Amount INT
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE Payment(
+    -> PaymentID VARCHAR(10) PRIMARY KEY,
+    -> OrderID VARCHAR(10),
+    -> PaymentMode VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> CREATE TABLE Delivery(
+    -> DeliveryID VARCHAR(10) PRIMARY KEY,
+    -> OrderID VARCHAR(10),
+    -> Status VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> INSERT INTO Product VALUES
+    -> ('P101','Laptop','Electronics'),
+    -> ('P102','Mobile','Electronics'),
+    -> ('P103','Chair','Furniture'),
+    -> ('P104','Table','Furniture');
+Query OK, 4 rows affected (0.04 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Customer VALUES
+    -> ('C001','Arun','Chennai'),
+    -> ('C002','Priya','Salem'),
+    -> ('C003','Rahul','Madurai'),
+    -> ('C004','Kiran','Coimbatore');
+Query OK, 4 rows affected (0.04 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Orders VALUES
+    -> ('O001','C001','P101',65000),
+    -> ('O002','C002','P102',18000),
+    -> ('O003','C003','P103',7000),
+    -> ('O004','C001','P104',9000),
+    -> ('O005','C004','P102',22000);
+Query OK, 5 rows affected (0.05 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Payment VALUES
+    -> ('PM01','O001','UPI'),
+    -> ('PM02','O002','Card'),
+    -> ('PM03','O003','Cash'),
+    -> ('PM04','O004','Card'),
+    -> ('PM05','O005','UPI');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Delivery VALUES
+    -> ('D001','O001','Delivered'),
+    -> ('D002','O002','Pending'),
+    -> ('D003','O003','Delivered'),
+    -> ('D004','O004','Shipped'),
+    -> ('D005','O005','Delivered');
+Query OK, 5 rows affected (0.04 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SELECT *
+    -> FROM Product
+    -> WHERE Category IN ('Electronics','Furniture');
++-----------+-------------+-------------+
+| ProductID | ProductName | Category    |
++-----------+-------------+-------------+
+| P101      | Laptop      | Electronics |
+| P102      | Mobile      | Electronics |
+| P103      | Chair       | Furniture   |
+| P104      | Table       | Furniture   |
++-----------+-------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM Orders
+    -> WHERE Amount BETWEEN 8000 AND 25000;
++---------+------------+-----------+--------+
+| OrderID | CustomerID | ProductID | Amount |
++---------+------------+-----------+--------+
+| O002    | C002       | P102      |  18000 |
+| O004    | C001       | P104      |   9000 |
+| O005    | C004       | P102      |  22000 |
++---------+------------+-----------+--------+
+3 rows in set (0.02 sec)
+
+mysql> SELECT AVG(Amount) AS Average_Amount
+    -> FROM Orders;
++----------------+
+| Average_Amount |
++----------------+
+|     24200.0000 |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MAX(Amount) AS Maximum_Amount,
+    -> MIN(Amount) AS Minimum_Amount
+    -> FROM Orders;
++----------------+----------------+
+| Maximum_Amount | Minimum_Amount |
++----------------+----------------+
+|          65000 |           7000 |
++----------------+----------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT ProductID,
+    -> MAX(Amount) AS Maximum,
+    -> MIN(Amount) AS Minimum,
+    -> AVG(Amount) AS Average
+    -> FROM Orders
+    -> GROUP BY ProductID;
++-----------+---------+---------+------------+
+| ProductID | Maximum | Minimum | Average    |
++-----------+---------+---------+------------+
+| P101      |   65000 |   65000 | 65000.0000 |
+| P102      |   22000 |   18000 | 20000.0000 |
+| P103      |    7000 |    7000 |  7000.0000 |
+| P104      |    9000 |    9000 |  9000.0000 |
++-----------+---------+---------+------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT ProductID,
+    -> MAX(Amount) AS Maximum,
+    -> MIN(Amount) AS Minimum,
+    -> AVG(Amount) AS Average
+    -> FROM Orders
+    -> GROUP BY ProductID;
++-----------+---------+---------+------------+
+| ProductID | Maximum | Minimum | Average    |
++-----------+---------+---------+------------+
+| P101      |   65000 |   65000 | 65000.0000 |
+| P102      |   22000 |   18000 | 20000.0000 |
+| P103      |    7000 |    7000 |  7000.0000 |
+| P104      |    9000 |    9000 |  9000.0000 |
++-----------+---------+---------+------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT Product.ProductName,
+    -> AVG(Orders.Amount) AS Average_Amount
+    -> FROM Product
+    -> JOIN Orders
+    -> ON Product.ProductID=Orders.ProductID
+    -> GROUP BY Product.ProductName;
++-------------+----------------+
+| ProductName | Average_Amount |
++-------------+----------------+
+| Laptop      |     65000.0000 |
+| Mobile      |     20000.0000 |
+| Chair       |      7000.0000 |
+| Table       |      9000.0000 |
++-------------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT SUM(Amount) AS Total_Amount
+    -> FROM Orders;
++--------------+
+| Total_Amount |
++--------------+
+|       121000 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT Product.ProductName,
+    -> COUNT(Orders.CustomerID) AS Customers
+    -> FROM Product
+    -> JOIN Orders
+    -> ON Product.ProductID=Orders.ProductID
+    -> GROUP BY Product.ProductName;
++-------------+-----------+
+| ProductName | Customers |
++-------------+-----------+
+| Laptop      |         1 |
+| Mobile      |         2 |
+| Chair       |         1 |
+| Table       |         1 |
++-------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT Customer.CustomerName,
+    -> COUNT(Orders.ProductID) AS Total_Orders
+    -> FROM Customer
+    -> JOIN Orders
+    -> ON Customer.CustomerID=Orders.CustomerID
+    -> GROUP BY Customer.CustomerName;
++--------------+--------------+
+| CustomerName | Total_Orders |
++--------------+--------------+
+| Arun         |            2 |
+| Priya        |            1 |
+| Rahul        |            1 |
+| Kiran        |            1 |
++--------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql>
