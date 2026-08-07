@@ -1,0 +1,208 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 13
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> mysql -u root -p
+    -> SHOW DATABASES;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysql -u root -p
+SHOW DATABASES' at line 1
+mysql>
+mysql> CREATE DATABASE HotelDB;
+Query OK, 1 row affected (0.07 sec)
+
+mysql> USE HotelDB;
+Database changed
+mysql> CREATE TABLE ROOM (
+    ->     RoomID INT PRIMARY KEY,
+    ->     RoomType VARCHAR(30),
+    ->     Price INT,
+    ->     FloorNo INT
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> CREATE TABLE GUEST (
+    ->     GuestID INT PRIMARY KEY,
+    ->     GuestName VARCHAR(40),
+    ->     Gender VARCHAR(10),
+    ->     City VARCHAR(30)
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> CREATE TABLE BOOKING (
+    ->     BookingID INT PRIMARY KEY,
+    ->     GuestID INT,
+    ->     RoomID INT,
+    ->     CheckIn DATE,
+    ->     CheckOut DATE,
+    ->     FOREIGN KEY (GuestID) REFERENCES GUEST(GuestID),
+    ->     FOREIGN KEY (RoomID) REFERENCES ROOM(RoomID)
+    -> );
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> INSERT INTO ROOM VALUES
+    -> (101,'Single',1500,1),
+    -> (102,'Double',2500,1),
+    -> (103,'Deluxe',3500,2),
+    -> (104,'Suite',5000,2),
+    -> (105,'Single',1500,3),
+    -> (106,'Double',2500,3),
+    -> (107,'Deluxe',3500,4),
+    -> (108,'Suite',5000,4);
+Query OK, 8 rows affected (0.04 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO GUEST VALUES
+    -> (1,'Arun','Male','Chennai'),
+    -> (2,'Priya','Female','Madurai'),
+    -> (3,'Karthik','Male','Coimbatore'),
+    -> (4,'Meena','Female','Salem'),
+    -> (5,'Rahul','Male','Chennai'),
+    -> (6,'Divya','Female','Trichy'),
+    -> (7,'Suresh','Male','Madurai'),
+    -> (8,'Anitha','Female','Chennai');
+Query OK, 8 rows affected (0.04 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO BOOKING VALUES
+    -> (1,1,101,'2026-07-01','2026-07-03'),
+    -> (2,2,102,'2026-07-02','2026-07-05'),
+    -> (3,3,103,'2026-07-03','2026-07-06'),
+    -> (4,4,101,'2026-07-04','2026-07-06'),
+    -> (5,5,104,'2026-07-05','2026-07-08'),
+    -> (6,6,102,'2026-07-06','2026-07-09'),
+    -> (7,7,103,'2026-07-07','2026-07-10'),
+    -> (8,8,101,'2026-07-08','2026-07-11'),
+    -> (9,1,105,'2026-07-10','2026-07-12'),
+    -> (10,3,106,'2026-07-11','2026-07-14');
+Query OK, 10 rows affected (0.04 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> SHOW TABLES;
++-------------------+
+| Tables_in_hoteldb |
++-------------------+
+| booking           |
+| guest             |
+| room              |
++-------------------+
+3 rows in set (0.06 sec)
+
+mysql> SELECT * FROM ROOM;
++--------+----------+-------+---------+
+| RoomID | RoomType | Price | FloorNo |
++--------+----------+-------+---------+
+|    101 | Single   |  1500 |       1 |
+|    102 | Double   |  2500 |       1 |
+|    103 | Deluxe   |  3500 |       2 |
+|    104 | Suite    |  5000 |       2 |
+|    105 | Single   |  1500 |       3 |
+|    106 | Double   |  2500 |       3 |
+|    107 | Deluxe   |  3500 |       4 |
+|    108 | Suite    |  5000 |       4 |
++--------+----------+-------+---------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT * FROM GUEST;
++---------+-----------+--------+------------+
+| GuestID | GuestName | Gender | City       |
++---------+-----------+--------+------------+
+|       1 | Arun      | Male   | Chennai    |
+|       2 | Priya     | Female | Madurai    |
+|       3 | Karthik   | Male   | Coimbatore |
+|       4 | Meena     | Female | Salem      |
+|       5 | Rahul     | Male   | Chennai    |
+|       6 | Divya     | Female | Trichy     |
+|       7 | Suresh    | Male   | Madurai    |
+|       8 | Anitha    | Female | Chennai    |
++---------+-----------+--------+------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT * FROM BOOKING;
++-----------+---------+--------+------------+------------+
+| BookingID | GuestID | RoomID | CheckIn    | CheckOut   |
++-----------+---------+--------+------------+------------+
+|         1 |       1 |    101 | 2026-07-01 | 2026-07-03 |
+|         2 |       2 |    102 | 2026-07-02 | 2026-07-05 |
+|         3 |       3 |    103 | 2026-07-03 | 2026-07-06 |
+|         4 |       4 |    101 | 2026-07-04 | 2026-07-06 |
+|         5 |       5 |    104 | 2026-07-05 | 2026-07-08 |
+|         6 |       6 |    102 | 2026-07-06 | 2026-07-09 |
+|         7 |       7 |    103 | 2026-07-07 | 2026-07-10 |
+|         8 |       8 |    101 | 2026-07-08 | 2026-07-11 |
+|         9 |       1 |    105 | 2026-07-10 | 2026-07-12 |
+|        10 |       3 |    106 | 2026-07-11 | 2026-07-14 |
++-----------+---------+--------+------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT RoomID, COUNT(*) AS Booking_Count
+    -> FROM BOOKING
+    -> GROUP BY RoomID;
++--------+---------------+
+| RoomID | Booking_Count |
++--------+---------------+
+|    101 |             3 |
+|    102 |             2 |
+|    103 |             2 |
+|    104 |             1 |
+|    105 |             1 |
+|    106 |             1 |
++--------+---------------+
+6 rows in set (0.04 sec)
+
+mysql> SELECT RoomID, COUNT(*) AS Booking_Count
+    -> FROM BOOKING
+    -> GROUP BY RoomID
+    -> HAVING COUNT(*) > 1;
++--------+---------------+
+| RoomID | Booking_Count |
++--------+---------------+
+|    101 |             3 |
+|    102 |             2 |
+|    103 |             2 |
++--------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT GuestID, GuestName, Gender, City
+    -> FROM GUEST
+    -> ORDER BY GuestName ASC;
++---------+-----------+--------+------------+
+| GuestID | GuestName | Gender | City       |
++---------+-----------+--------+------------+
+|       8 | Anitha    | Female | Chennai    |
+|       1 | Arun      | Male   | Chennai    |
+|       6 | Divya     | Female | Trichy     |
+|       3 | Karthik   | Male   | Coimbatore |
+|       4 | Meena     | Female | Salem      |
+|       2 | Priya     | Female | Madurai    |
+|       5 | Rahul     | Male   | Chennai    |
+|       7 | Suresh    | Male   | Madurai    |
++---------+-----------+--------+------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT RoomID, RoomType, Price
+    -> FROM ROOM
+    -> ORDER BY Price DESC;
++--------+----------+-------+
+| RoomID | RoomType | Price |
++--------+----------+-------+
+|    104 | Suite    |  5000 |
+|    108 | Suite    |  5000 |
+|    103 | Deluxe   |  3500 |
+|    107 | Deluxe   |  3500 |
+|    102 | Double   |  2500 |
+|    106 | Double   |  2500 |
+|    101 | Single   |  1500 |
+|    105 | Single   |  1500 |
++--------+----------+-------+
+8 rows in set (0.00 sec)
+
+mysql>
