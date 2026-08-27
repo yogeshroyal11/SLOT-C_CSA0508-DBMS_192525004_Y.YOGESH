@@ -1,0 +1,178 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 13
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> USE university_db;
+Database changed
+mysql>
+mysql> DROP TABLE IF EXISTS Class;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> CREATE TABLE Class (
+    ->     id INT PRIMARY KEY,
+    ->     name VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> INSERT INTO Class VALUES (1, 'Alpha');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Class VALUES (2, 'Beta');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Class VALUES (3, 'Charlie');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Class VALUES (4, 'Delta');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Class VALUES (5, 'Echo');
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> COMMIT;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>
+mysql> SELECT * FROM Class;
++----+---------+
+| id | name    |
++----+---------+
+|  1 | Alpha   |
+|  2 | Beta    |
+|  3 | Charlie |
+|  4 | Delta   |
+|  5 | Echo    |
++----+---------+
+5 rows in set (0.00 sec)
+
+mysql> UPDATE Class
+    -> SET name = 'Bravo'
+    -> WHERE id = 5;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql>
+mysql> SAVEPOINT A;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>
+mysql> SELECT * FROM Class;
++----+---------+
+| id | name    |
++----+---------+
+|  1 | Alpha   |
+|  2 | Beta    |
+|  3 | Charlie |
+|  4 | Delta   |
+|  5 | Bravo   |
++----+---------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO Class VALUES (6, 'Uppal');
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> SAVEPOINT B;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>
+mysql> SELECT * FROM Class;
++----+---------+
+| id | name    |
++----+---------+
+|  1 | Alpha   |
+|  2 | Beta    |
+|  3 | Charlie |
+|  4 | Delta   |
+|  5 | Bravo   |
+|  6 | Uppal   |
++----+---------+
+6 rows in set (0.00 sec)
+
+mysql> INSERT INTO Class VALUES (7, 'Balu');
+Query OK, 1 row affected (0.01 sec)
+
+mysql>
+mysql> SAVEPOINT C;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>
+mysql> SELECT * FROM Class;
++----+---------+
+| id | name    |
++----+---------+
+|  1 | Alpha   |
+|  2 | Beta    |
+|  3 | Charlie |
+|  4 | Delta   |
+|  5 | Bravo   |
+|  6 | Uppal   |
+|  7 | Balu    |
++----+---------+
+7 rows in set (0.00 sec)
+
+mysql> ROLLBACK TO SAVEPOINT B;
+ERROR 1305 (42000): SAVEPOINT B does not exist
+mysql>
+mysql> SELECT * FROM Class;
++----+---------+
+| id | name    |
++----+---------+
+|  1 | Alpha   |
+|  2 | Beta    |
+|  3 | Charlie |
+|  4 | Delta   |
+|  5 | Bravo   |
+|  6 | Uppal   |
+|  7 | Balu    |
++----+---------+
+7 rows in set (0.00 sec)
+
+mysql> ROLLBACK TO SAVEPOINT A;
+ERROR 1305 (42000): SAVEPOINT A does not exist
+mysql>
+mysql> SELECT * FROM Class;
++----+---------+
+| id | name    |
++----+---------+
+|  1 | Alpha   |
+|  2 | Beta    |
+|  3 | Charlie |
+|  4 | Delta   |
+|  5 | Bravo   |
+|  6 | Uppal   |
+|  7 | Balu    |
++----+---------+
+7 rows in set (0.00 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>
+mysql> SELECT * FROM Class;
++----+---------+
+| id | name    |
++----+---------+
+|  1 | Alpha   |
+|  2 | Beta    |
+|  3 | Charlie |
+|  4 | Delta   |
+|  5 | Bravo   |
+|  6 | Uppal   |
+|  7 | Balu    |
++----+---------+
+7 rows in set (0.00 sec)
+
+mysql>

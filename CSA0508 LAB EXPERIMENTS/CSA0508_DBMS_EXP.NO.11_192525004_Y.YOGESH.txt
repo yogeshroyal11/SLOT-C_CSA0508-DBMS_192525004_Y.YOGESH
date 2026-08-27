@@ -1,0 +1,78 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> CREATE DATABASE university_db;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE university_db;
+Database changed
+mysql>
+mysql> CREATE TABLE DBMS_Stud (
+    ->     Register_No INT AUTO_INCREMENT PRIMARY KEY,
+    ->     Name VARCHAR(50),
+    ->     Department VARCHAR(30),
+    ->     Mark INT
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql>
+mysql> INSERT INTO DBMS_Stud (Name, Department, Mark)
+    -> VALUES ('Arun', 'CSE', 85);
+Query OK, 1 row affected (0.01 sec)
+
+mysql>
+mysql> INSERT INTO DBMS_Stud (Name, Department, Mark)
+    -> VALUES ('Bala', 'IT', 78);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> INSERT INTO DBMS_Stud (Name, Department, Mark)
+    -> VALUES ('Kiran', 'ECE', 91);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> SELECT * FROM DBMS_Stud;
++-------------+-------+------------+------+
+| Register_No | Name  | Department | Mark |
++-------------+-------+------------+------+
+|           1 | Arun  | CSE        |   85 |
+|           2 | Bala  | IT         |   78 |
+|           3 | Kiran | ECE        |   91 |
++-------------+-------+------------+------+
+3 rows in set (0.00 sec)
+
+mysql>
+mysql> INSERT INTO DBMS_Stud (Register_No, Name, Department, Mark)
+    -> VALUES (10, 'Rahul', 'CSE', 88);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> SELECT * FROM DBMS_Stud;
++-------------+-------+------------+------+
+| Register_No | Name  | Department | Mark |
++-------------+-------+------------+------+
+|           1 | Arun  | CSE        |   85 |
+|           2 | Bala  | IT         |   78 |
+|           3 | Kiran | ECE        |   91 |
+|          10 | Rahul | CSE        |   88 |
++-------------+-------+------------+------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql> ALTER TABLE DBMS_Stud
+    -> MODIFY Register_No INT NOT NULL;
+Query OK, 4 rows affected (0.06 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> DESC DBMS_Stud;

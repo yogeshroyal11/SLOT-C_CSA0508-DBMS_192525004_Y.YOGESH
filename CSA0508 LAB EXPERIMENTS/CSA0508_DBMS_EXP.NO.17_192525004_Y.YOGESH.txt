@@ -1,0 +1,104 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> USE dbms_lab;
+Database changed
+mysql>
+mysql> DELIMITER $$
+mysql>
+mysql> CREATE FUNCTION CustomerLevel(p_creditLimit DECIMAL(10,2))
+    -> RETURNS VARCHAR(20)
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE customer_level VARCHAR(20);
+    ->
+    ->     IF p_creditLimit > 50000 THEN
+    ->         SET customer_level = 'PLATINUM';
+    ->     ELSEIF p_creditLimit >= 10000 THEN
+    ->         SET customer_level = 'GOLD';
+    ->     ELSE
+    ->         SET customer_level = 'SILVER';
+    ->     END IF;
+    ->
+    ->     RETURN customer_level;
+    -> END$$
+Query OK, 0 rows affected (0.04 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql>
+mysql> SELECT CustomerLevel(60000);
++----------------------+
+| CustomerLevel(60000) |
++----------------------+
+| PLATINUM             |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CustomerLevel(30000);
++----------------------+
+| CustomerLevel(30000) |
++----------------------+
+| GOLD                 |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CustomerLevel(5000);
++---------------------+
+| CustomerLevel(5000) |
++---------------------+
+| SILVER              |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> USE dbms_lab;
+Database changed
+mysql>
+mysql> SET GLOBAL max_sp_recursion_depth = 255;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET SESSION max_sp_recursion_depth = 255;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>
+mysql> DELIMITER $$
+mysql>
+mysql> CREATE PROCEDURE Factorial(
+    ->     IN n INT,
+    ->     OUT result BIGINT
+    -> )
+    -> BEGIN
+    ->     IF n <= 1 THEN
+    ->         SET result = 1;
+    ->     ELSE
+    ->         CALL Factorial(n-1,@temp);
+    ->         SET result = n * @temp;
+    ->     END IF;
+    -> END$$
+Query OK, 0 rows affected (0.05 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql>
+mysql> CALL Factorial(5,@result);
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT @result;
++---------+
+| @result |
++---------+
+|     120 |
++---------+
+1 row in set (0.00 sec)
+
+mysql>
