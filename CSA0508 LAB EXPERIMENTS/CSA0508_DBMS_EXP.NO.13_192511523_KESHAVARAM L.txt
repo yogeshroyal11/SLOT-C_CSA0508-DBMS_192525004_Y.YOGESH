@@ -1,0 +1,101 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> USE university_db;
+Database changed
+mysql>
+mysql> DELIMITER //
+mysql>
+mysql> CREATE FUNCTION income_level(monthly_value INT)
+    -> RETURNS VARCHAR(30)
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE result VARCHAR(30);
+    ->
+    ->     CASE
+    ->         WHEN monthly_value <= 4000 THEN
+    ->             SET result = 'Low Income';
+    ->         WHEN monthly_value <= 5000 THEN
+    ->             SET result = 'Avg Income';
+    ->         ELSE
+    ->             SET result = 'High Income';
+    ->     END CASE;
+    ->
+    ->     RETURN result;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql>
+mysql> SELECT income_level(3500);
++--------------------+
+| income_level(3500) |
++--------------------+
+| Low Income         |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT income_level(4500);
++--------------------+
+| income_level(4500) |
++--------------------+
+| Avg Income         |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT income_level(6000);
++--------------------+
+| income_level(6000) |
++--------------------+
+| High Income        |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> USE university_db;
+Database changed
+mysql>
+mysql> DELIMITER //
+mysql>
+mysql> CREATE FUNCTION loop_demo()
+    -> RETURNS INT
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE income INT DEFAULT 1000;
+    ->
+    ->     income_loop: LOOP
+    ->         SET income = income + 1000;
+    ->
+    ->         IF income < 4000 THEN
+    ->             ITERATE income_loop;
+    ->         END IF;
+    ->
+    ->         LEAVE income_loop;
+    ->     END LOOP;
+    ->
+    ->     RETURN income;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql>
+mysql> SELECT loop_demo();
++-------------+
+| loop_demo() |
++-------------+
+|        4000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql>

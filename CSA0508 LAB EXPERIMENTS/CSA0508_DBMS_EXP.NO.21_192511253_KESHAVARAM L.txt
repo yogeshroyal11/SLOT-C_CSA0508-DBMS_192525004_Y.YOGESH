@@ -1,0 +1,157 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 14
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SELECT CONCAT('Hello',SPACE(5),'World');
++----------------------------------+
+| CONCAT('Hello',SPACE(5),'World') |
++----------------------------------+
+| Hello     World                  |
++----------------------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT SUBSTRING('DATABASE',1,4);
++---------------------------+
+| SUBSTRING('DATABASE',1,4) |
++---------------------------+
+| DATA                      |
++---------------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT SUBSTR('DATABASE',5,4);
++------------------------+
+| SUBSTR('DATABASE',5,4) |
++------------------------+
+| BASE                   |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT UPPER('mysql database');
++-------------------------+
+| UPPER('mysql database') |
++-------------------------+
+| MYSQL DATABASE          |
++-------------------------+
+1 row in set (0.04 sec)
+
+mysql>
+mysql> SELECT LOWER('MYSQL DATABASE');
++-------------------------+
+| LOWER('MYSQL DATABASE') |
++-------------------------+
+| mysql database          |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT TRIM('   MySQL   ');
++---------------------+
+| TRIM('   MySQL   ') |
++---------------------+
+| MySQL               |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT RTRIM('MySQL   ');
++-------------------+
+| RTRIM('MySQL   ') |
++-------------------+
+| MySQL             |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT LTRIM('   MySQL');
++-------------------+
+| LTRIM('   MySQL') |
++-------------------+
+| MySQL             |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT LENGTH('DATABASE');
++--------------------+
+| LENGTH('DATABASE') |
++--------------------+
+|                  8 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT BIT_LENGTH('ABC');
++-------------------+
+| BIT_LENGTH('ABC') |
++-------------------+
+|                24 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT CHAR_LENGTH('DATABASE');
++-------------------------+
+| CHAR_LENGTH('DATABASE') |
++-------------------------+
+|                       8 |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT CONCAT('MySQL',' ','Database');
++--------------------------------+
+| CONCAT('MySQL',' ','Database') |
++--------------------------------+
+| MySQL Database                 |
++--------------------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT INSTR('MySQL Database','Database');
++------------------------------------+
+| INSTR('MySQL Database','Database') |
++------------------------------------+
+|                                  7 |
++------------------------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT LOCATE('Database','MySQL Database');
++-------------------------------------+
+| LOCATE('Database','MySQL Database') |
++-------------------------------------+
+|                                   7 |
++-------------------------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT MID('DATABASE',1,4);
++---------------------+
+| MID('DATABASE',1,4) |
++---------------------+
+| DATA                |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT POSITION('SQL' IN 'MySQL');
++----------------------------+
+| POSITION('SQL' IN 'MySQL') |
++----------------------------+
+|                          3 |
++----------------------------+
+1 row in set (0.00 sec)
+
+mysql>
