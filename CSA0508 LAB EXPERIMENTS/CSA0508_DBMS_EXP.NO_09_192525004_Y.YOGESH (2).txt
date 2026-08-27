@@ -1,0 +1,288 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 16
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> CREATE DATABASE TrainingDB;
+Query OK, 1 row affected (0.04 sec)
+
+mysql> USE TrainingDB;
+Database changed
+mysql> CREATE TABLE DEPARTMENT (
+    ->     DeptID INT PRIMARY KEY,
+    ->     DeptName VARCHAR(30)
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> CREATE TABLE FACULTY (
+    ->     FacultyID INT PRIMARY KEY,
+    ->     FacultyName VARCHAR(30),
+    ->     DeptID INT,
+    ->     FOREIGN KEY (DeptID) REFERENCES DEPARTMENT(DeptID)
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> CREATE TABLE STUDENT (
+    ->     StudentID INT PRIMARY KEY,
+    ->     StudentName VARCHAR(30)
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> CREATE TABLE COURSE (
+    ->     CourseNo VARCHAR(10) PRIMARY KEY,
+    ->     CourseName VARCHAR(40)
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> CREATE TABLE SCORE (
+    ->     StudentID INT,
+    ->     CourseNo VARCHAR(10),
+    ->     Score INT,
+    ->     FOREIGN KEY (StudentID) REFERENCES STUDENT(StudentID),
+    ->     FOREIGN KEY (CourseNo) REFERENCES COURSE(CourseNo)
+    -> );
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> CREATE TABLE FACULTY_COURSE (
+    ->     FacultyID INT,
+    ->     CourseNo VARCHAR(10),
+    ->     FOREIGN KEY (FacultyID) REFERENCES FACULTY(FacultyID),
+    ->     FOREIGN KEY (CourseNo) REFERENCES COURSE(CourseNo)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> INSERT INTO DEPARTMENT VALUES
+    -> (1,'CSE'),
+    -> (2,'ECE'),
+    -> (3,'IT'),
+    -> (4,'EEE'),
+    -> (5,'MECH');
+Query OK, 5 rows affected (0.04 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO FACULTY VALUES
+    -> (101,'Kamal',2),
+    -> (102,'Ratnam',1),
+    -> (103,'Arun',3),
+    -> (104,'Priya',2),
+    -> (105,'Suresh',4);
+Query OK, 5 rows affected (0.05 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO STUDENT VALUES
+    -> (201,'Kavin'),
+    -> (202,'Meena'),
+    -> (203,'Rahul'),
+    -> (204,'Divya'),
+    -> (205,'Arun'),
+    -> (206,'Nisha');
+Query OK, 6 rows affected (0.04 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO COURSE VALUES
+    -> ('C101','Database Management'),
+    -> ('C102','Computer Networks'),
+    -> ('C103','Programming'),
+    -> ('C104','Cyber Security'),
+    -> ('C105','Web Technology');
+Query OK, 5 rows affected (0.04 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO SCORE VALUES
+    -> (201,'C101',85),
+    -> (201,'C102',78),
+    -> (202,'C101',90),
+    -> (202,'C103',88),
+    -> (203,'C102',65),
+    -> (204,'C104',92),
+    -> (205,'C103',75);
+Query OK, 7 rows affected (0.01 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO FACULTY_COURSE VALUES
+    -> (101,'C101'),
+    -> (101,'C102'),
+    -> (102,'C103'),
+    -> (102,'C104'),
+    -> (103,'C105'),
+    -> (104,'C101');
+Query OK, 6 rows affected (0.05 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> SHOW TABLES;
++----------------------+
+| Tables_in_trainingdb |
++----------------------+
+| course               |
+| department           |
+| faculty              |
+| faculty_course       |
+| score                |
+| student              |
++----------------------+
+6 rows in set (0.03 sec)
+
+mysql> SELECT * FROM DEPARTMENT;
++--------+----------+
+| DeptID | DeptName |
++--------+----------+
+|      1 | CSE      |
+|      2 | ECE      |
+|      3 | IT       |
+|      4 | EEE      |
+|      5 | MECH     |
++--------+----------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT * FROM FACULTY;
++-----------+-------------+--------+
+| FacultyID | FacultyName | DeptID |
++-----------+-------------+--------+
+|       101 | Kamal       |      2 |
+|       102 | Ratnam      |      1 |
+|       103 | Arun        |      3 |
+|       104 | Priya       |      2 |
+|       105 | Suresh      |      4 |
++-----------+-------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM STUDENT;
++-----------+-------------+
+| StudentID | StudentName |
++-----------+-------------+
+|       201 | Kavin       |
+|       202 | Meena       |
+|       203 | Rahul       |
+|       204 | Divya       |
+|       205 | Arun        |
+|       206 | Nisha       |
++-----------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT * FROM COURSE;
++----------+---------------------+
+| CourseNo | CourseName          |
++----------+---------------------+
+| C101     | Database Management |
+| C102     | Computer Networks   |
+| C103     | Programming         |
+| C104     | Cyber Security      |
+| C105     | Web Technology      |
++----------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT * FROM SCORE;
++-----------+----------+-------+
+| StudentID | CourseNo | Score |
++-----------+----------+-------+
+|       201 | C101     |    85 |
+|       201 | C102     |    78 |
+|       202 | C101     |    90 |
+|       202 | C103     |    88 |
+|       203 | C102     |    65 |
+|       204 | C104     |    92 |
+|       205 | C103     |    75 |
++-----------+----------+-------+
+7 rows in set (0.04 sec)
+
+mysql> SELECT * FROM FACULTY_COURSE;
++-----------+----------+
+| FacultyID | CourseNo |
++-----------+----------+
+|       101 | C101     |
+|       101 | C102     |
+|       102 | C103     |
+|       102 | C104     |
+|       103 | C105     |
+|       104 | C101     |
++-----------+----------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT f.FacultyName, d.DeptName
+    -> FROM FACULTY f, DEPARTMENT d
+    -> WHERE f.DeptID = d.DeptID;
++-------------+----------+
+| FacultyName | DeptName |
++-------------+----------+
+| Kamal       | ECE      |
+| Ratnam      | CSE      |
+| Arun        | IT       |
+| Priya       | ECE      |
+| Suresh      | EEE      |
++-------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT s.StudentName, sc.CourseNo
+    -> FROM STUDENT s
+    -> LEFT JOIN SCORE sc
+    -> ON s.StudentID = sc.StudentID
+    -> WHERE sc.StudentID IS NULL;
++-------------+----------+
+| StudentName | CourseNo |
++-------------+----------+
+| Nisha       | NULL     |
++-------------+----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT f.FacultyName, d.DeptName, c.CourseName
+    -> FROM FACULTY f
+    -> INNER JOIN DEPARTMENT d
+    -> ON f.DeptID = d.DeptID
+    -> INNER JOIN FACULTY_COURSE fc
+    -> ON f.FacultyID = fc.FacultyID
+    -> INNER JOIN COURSE c
+    -> ON fc.CourseNo = c.CourseNo
+    -> WHERE f.FacultyName = 'Kamal'
+    -> AND d.DeptName = 'ECE';
++-------------+----------+---------------------+
+| FacultyName | DeptName | CourseName          |
++-------------+----------+---------------------+
+| Kamal       | ECE      | Database Management |
+| Kamal       | ECE      | Computer Networks   |
++-------------+----------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT c.CourseNo, c.CourseName, fc.FacultyID
+    -> FROM FACULTY_COURSE fc
+    -> RIGHT JOIN COURSE c
+    -> ON fc.CourseNo = c.CourseNo;
++----------+---------------------+-----------+
+| CourseNo | CourseName          | FacultyID |
++----------+---------------------+-----------+
+| C101     | Database Management |       101 |
+| C101     | Database Management |       104 |
+| C102     | Computer Networks   |       101 |
+| C103     | Programming         |       102 |
+| C104     | Cyber Security      |       102 |
+| C105     | Web Technology      |       103 |
++----------+---------------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT s.StudentName, sc.CourseNo, sc.Score
+    -> FROM STUDENT s
+    -> INNER JOIN SCORE sc
+    -> ON s.StudentID = sc.StudentID;
++-------------+----------+-------+
+| StudentName | CourseNo | Score |
++-------------+----------+-------+
+| Kavin       | C101     |    85 |
+| Kavin       | C102     |    78 |
+| Meena       | C101     |    90 |
+| Meena       | C103     |    88 |
+| Rahul       | C102     |    65 |
+| Divya       | C104     |    92 |
+| Arun        | C103     |    75 |
++-------------+----------+-------+
+7 rows in set (0.00 sec)
+
+mysql>

@@ -1,0 +1,213 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 17
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> CREATE DATABASE companydb;
+Query OK, 1 row affected (0.01 sec)
+
+mysql>
+mysql> USE companydb;
+Database changed
+mysql> CREATE TABLE employees1 (
+    ->     employee_id INT PRIMARY KEY,
+    ->     first_name VARCHAR(30),
+    ->     last_name VARCHAR(30),
+    ->     salary DECIMAL(10,2),
+    ->     department VARCHAR(30)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO employees1 VALUES
+    -> (1, 'Arun', 'Kumar', 120000, 'IT'),
+    -> (2, 'Priya', 'Sharma', 150000, 'HR'),
+    -> (3, 'Rahul', 'Raj', 140000, 'Finance'),
+    -> (4, 'Divya', 'Devi', 160000, 'IT'),
+    -> (5, 'Karthik', 'Mohan', 145000, 'Sales'),
+    -> (6, 'Sneha', 'Ravi', 180000, 'Finance'),
+    -> (7, 'Vijay', 'Kumar', 130000, 'HR'),
+    -> (8, 'Anitha', 'Raj', 155000, 'IT'),
+    -> (9, 'Suresh', 'Babu', 110000, 'Sales'),
+    -> (10, 'Meena', 'Devi', 170000, 'Finance');
+Query OK, 10 rows affected (0.01 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM employees1;
++-------------+------------+-----------+-----------+------------+
+| employee_id | first_name | last_name | salary    | department |
++-------------+------------+-----------+-----------+------------+
+|           1 | Arun       | Kumar     | 120000.00 | IT         |
+|           2 | Priya      | Sharma    | 150000.00 | HR         |
+|           3 | Rahul      | Raj       | 140000.00 | Finance    |
+|           4 | Divya      | Devi      | 160000.00 | IT         |
+|           5 | Karthik    | Mohan     | 145000.00 | Sales      |
+|           6 | Sneha      | Ravi      | 180000.00 | Finance    |
+|           7 | Vijay      | Kumar     | 130000.00 | HR         |
+|           8 | Anitha     | Raj       | 155000.00 | IT         |
+|           9 | Suresh     | Babu      | 110000.00 | Sales      |
+|          10 | Meena      | Devi      | 170000.00 | Finance    |
++-------------+------------+-----------+-----------+------------+
+10 rows in set (0.00 sec)
+
+mysql> CREATE VIEW v1 AS
+    -> SELECT employee_id, salary
+    -> FROM employees1;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT * FROM v1;
++-------------+-----------+
+| employee_id | salary    |
++-------------+-----------+
+|           1 | 120000.00 |
+|           2 | 150000.00 |
+|           3 | 140000.00 |
+|           4 | 160000.00 |
+|           5 | 145000.00 |
+|           6 | 180000.00 |
+|           7 | 130000.00 |
+|           8 | 155000.00 |
+|           9 | 110000.00 |
+|          10 | 170000.00 |
++-------------+-----------+
+10 rows in set (0.01 sec)
+
+mysql>
+mysql> INSERT INTO v1 (employee_id, salary)
+    -> VALUES (11, 125000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM v1;
++-------------+-----------+
+| employee_id | salary    |
++-------------+-----------+
+|           1 | 120000.00 |
+|           2 | 150000.00 |
+|           3 | 140000.00 |
+|           4 | 160000.00 |
+|           5 | 145000.00 |
+|           6 | 180000.00 |
+|           7 | 130000.00 |
+|           8 | 155000.00 |
+|           9 | 110000.00 |
+|          10 | 170000.00 |
+|          11 | 125000.00 |
++-------------+-----------+
+11 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT * FROM employees1;
++-------------+------------+-----------+-----------+------------+
+| employee_id | first_name | last_name | salary    | department |
++-------------+------------+-----------+-----------+------------+
+|           1 | Arun       | Kumar     | 120000.00 | IT         |
+|           2 | Priya      | Sharma    | 150000.00 | HR         |
+|           3 | Rahul      | Raj       | 140000.00 | Finance    |
+|           4 | Divya      | Devi      | 160000.00 | IT         |
+|           5 | Karthik    | Mohan     | 145000.00 | Sales      |
+|           6 | Sneha      | Ravi      | 180000.00 | Finance    |
+|           7 | Vijay      | Kumar     | 130000.00 | HR         |
+|           8 | Anitha     | Raj       | 155000.00 | IT         |
+|           9 | Suresh     | Babu      | 110000.00 | Sales      |
+|          10 | Meena      | Devi      | 170000.00 | Finance    |
+|          11 | NULL       | NULL      | 125000.00 | NULL       |
++-------------+------------+-----------+-----------+------------+
+11 rows in set (0.00 sec)
+
+mysql> DELETE FROM v1
+    -> WHERE employee_id = 11;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM employees1;
++-------------+------------+-----------+-----------+------------+
+| employee_id | first_name | last_name | salary    | department |
++-------------+------------+-----------+-----------+------------+
+|           1 | Arun       | Kumar     | 120000.00 | IT         |
+|           2 | Priya      | Sharma    | 150000.00 | HR         |
+|           3 | Rahul      | Raj       | 140000.00 | Finance    |
+|           4 | Divya      | Devi      | 160000.00 | IT         |
+|           5 | Karthik    | Mohan     | 145000.00 | Sales      |
+|           6 | Sneha      | Ravi      | 180000.00 | Finance    |
+|           7 | Vijay      | Kumar     | 130000.00 | HR         |
+|           8 | Anitha     | Raj       | 155000.00 | IT         |
+|           9 | Suresh     | Babu      | 110000.00 | Sales      |
+|          10 | Meena      | Devi      | 170000.00 | Finance    |
++-------------+------------+-----------+-----------+------------+
+10 rows in set (0.00 sec)
+
+mysql> CREATE INDEX index1
+    -> ON employees1(salary);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SHOW INDEX FROM employees1;
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table      | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| employees1 |          0 | PRIMARY  |            1 | employee_id | A  |          10 |     NULL |   NULL |      | BTREE      |         |      | YES     | NULL       |
+| employees1 |          1 | index1   |            1 | salary      | A  |          10 |     NULL |   NULL | YES  | BTREE      |         |      | YES     | NULL       |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT first_name
+    -> FROM employees1
+    -> WHERE salary > 145000;
++------------+
+| first_name |
++------------+
+| Priya      |
+| Anitha     |
+| Divya      |
+| Meena      |
+| Sneha      |
++------------+
+5 rows in set (0.01 sec)
+
+mysql> DROP INDEX index1 ON employees1;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SHOW INDEX FROM employees1;
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table      | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| employees1 |          0 | PRIMARY  |            1 | employee_id | A  |          10 |     NULL |   NULL |      | BTREE      |         |      | YES     | NULL       |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+1 row in set (0.01 sec)
+
+mysql> CREATE INDEX index1
+    -> ON employees1(employee_id);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SHOW INDEX FROM employees1;
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table      | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| employees1 |          0 | PRIMARY  |            1 | employee_id | A  |          10 |     NULL |   NULL |      | BTREE      |         |      | YES     | NULL       |
+| employees1 |          1 | index1   |            1 | employee_id | A  |          10 |     NULL |   NULL |      | BTREE      |         |      | YES     | NULL       |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT first_name
+    -> FROM employees1
+    -> WHERE employee_id = 10;
++------------+
+| first_name |
++------------+
+| Meena      |
++------------+
+1 row in set (0.00 sec)
+
+mysql> DROP INDEX index1 ON employees1;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>
